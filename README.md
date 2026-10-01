@@ -68,4 +68,4 @@ Antes de executar a automação, certifique-se de ter instalado:
 
 1. **Clonar o repositório:**
    ```bash
-   git clone [https://github.com/zacmarques/nome-do-repositorio.git](https://github.com/seu-usuario/nome-do-repositorio.git)
+   git clone [https://github.com/zacmarques/AutomacaoPython_RPA.git](https://github.com/zacmarques/AutomacaoPython_RPA.git)
