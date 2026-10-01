@@ -1,6 +1,6 @@
 # 🤖 Automação de Cadastro de Produtos com Python e PyAutoGUI
 
-Este projeto foi desenvolvido para demonstrar minha habilidade em criar um script para **automatizar tarefas operacionais e repetitivas** do dia a dia — seja na sua rotina pessoal ou no ambiente de trabalho — utilizando a linguagem Python. Utilizamos um banco com 293 fichas (cada ficha continha 7 colunas de itens, totalizando 2058 elementos) nos arquivos um arquivo pequeno, mas que já consumiria muito tempo e esforço pessoal.
+Este projeto foi desenvolvido para demonstrar minha habilidade em criar um script para **automatizar tarefas operacionais e repetitivas** do dia a dia — seja na sua rotina pessoal ou no ambiente de trabalho — utilizando a linguagem Python. Utilizamos um banco com 293 fichas (cada ficha continha 7 colunas de itens, totalizando 2058 elementos) nos arquivos um arquivo pequeno, mas que já consumiria muito tempo e esforço pessoal. Foi um projeto construído durante o "intensivão" de Python da Hashtag Programação no ano de 2026.
 
 > 📌 **Projeto de Portfólio / Estudo:** Esse processo foi feito para automatizar rotinas cansativas, eliminar erros de digitação e automação de fluxos de login e cadastro contínuo de dados.
 
