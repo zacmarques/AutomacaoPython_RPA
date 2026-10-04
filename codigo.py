@@ -6,67 +6,90 @@
 #Passo 3: Acessar a base de dados
 #Passo 4: Cadastrar o primeiro produto
 #Passo 5: Repetir o passo quatro até o final da lista
-#Agora você traduz isso para Python
-#Tem a biblioteca Selenium que vai automizar em segundo plano (que é oq eu preciso), mas só funciona no Navegador (não funfa em app no desktop ent vira usar esse autogui)
 
-import pyautogui
+import os
 import time
-import pandas
-import openpyxl
- 
+from pathlib import Path
+import pandas as pd
+import pyautogui
+from dotenv import load_dotenv
+
+# ━━ TRAVAS DE SEGURANÇA DO PYAUTOGUI ━━
+# Move o mouse para o canto superior esquerdo para interromper a execução em emergências
+pyautogui.FAILSAFE = True
 pyautogui.PAUSE = 0.5
-link = "https://dlp.hashtagtreinamentos.com/python/intensivao/login" #Serviço fake só para teste de cadastro
-email = "emailtestepython.com"
-senha = "senhadificilteste"
-tabela = pandas.read_csv("E:\coisas-do-zac\Faculdade_textos_emprego\Disciplinas_EAD_Certificados\Python_Hashtag\Aula 1\Aula 1 - Automações de Tarefas e Bots\Aula 1 - Automações de Tarefas e Bots\produtos.csv")
-#Passo 1: entrar no sistema da empresa. Abrir navegador e entrar no site
+
+# ━━ CARREGAMENTO DE VARIÁVEIS DE AMBIENTE ━━
+load_dotenv()
+EMAIL = os.getenv("APP_EMAIL", "emailtestepython@dominio.com")
+SENHA = os.getenv("APP_PASSWORD", "senhadificilteste")
+LINK = "https://dlp.hashtagtreinamentos.com/python/intensivao/login"
+
+# ━━ CAMINHO RELATIVO SEGURO ━━
+# Localiza o arquivo na mesma pasta do script
+DIRETORIO_ATUAL = Path(__file__).parent if "__file__" in locals() else Path.cwd()
+ARQUIVO_PRODUTOS = DIRETORIO_ATUAL / "produtos.csv"
+
+if not ARQUIVO_PRODUTOS.exists():
+    raise FileNotFoundError(f"Arquivo de dados não encontrado em: {ARQUIVO_PRODUTOS}")
+
+tabela = pd.read_csv(ARQUIVO_PRODUTOS)
+
+# ━━ EXECUÇÃO DA AUTOMAÇÃO ━━
+# Passo 1: Entrar no sistema
 pyautogui.press("win")
 pyautogui.write("Brave")
 pyautogui.press("enter")
-pyautogui.write(link)
+time.sleep(1.5)
+
+pyautogui.write(LINK)
 pyautogui.press("enter")
-time.sleep(3) #Aqui a pausa tem que ser um pouco maior por conta da velocidade de internet variar
-#Passo 2: Fazer login. Aqui eu uso duas variaveis declaradas, mas poderia ser .write
+time.sleep(3)  # Aguarda carregamento da página
+
+# Passo 2: Fazer login
+# NOTA: Recomenda-se ajustar as coordenadas conforme sua tela
 pyautogui.click(x=415, y=367)
-pyautogui.write(email)
-time.sleep(0.5)
+pyautogui.write(EMAIL)
 pyautogui.press("tab")
-pyautogui.write(senha)
+pyautogui.write(SENHA)
 pyautogui.press("enter")
-#Passo 3: Acessar a base de dados
-print(tabela)
-#Passo 4 e 5: Cadastrar primeiro produto e repetir até acabar tabela
+time.sleep(2)
+
+# Passo 3 e 4: Cadastrar produtos com tratamento de input
 for linha in tabela.index:
     pyautogui.click(x=388, y=261)
-    codigo = str(tabela.loc[linha, "codigo"])
+    
+    # Preenchimento tratado de cada campo
+    codigo = str(tabela.loc[linha, "codigo"]).replace("\n", "").strip()
     pyautogui.write(codigo)
     pyautogui.press("tab")
-    #código
-    marca = str(tabela.loc[linha, "marca"])
+    
+    marca = str(tabela.loc[linha, "marca"]).replace("\n", "").strip()
     pyautogui.write(marca)
     pyautogui.press("tab")
-    #Marca
-    tipo = str(tabela.loc[linha, "tipo"])
+    
+    tipo = str(tabela.loc[linha, "tipo"]).replace("\n", "").strip()
     pyautogui.write(tipo)
     pyautogui.press("tab")
-    #tipo
-    categoria = str(tabela.loc[linha, "categoria"])
+    
+    categoria = str(tabela.loc[linha, "categoria"]).replace("\n", "").strip()
     pyautogui.write(categoria)
     pyautogui.press("tab")
-    #Categoria
-    preco = str(tabela.loc[linha, "preco_unitario"])
+    
+    preco = str(tabela.loc[linha, "preco_unitario"]).replace("\n", "").strip()
     pyautogui.write(preco)
     pyautogui.press("tab")
-    #Preço_unitario
-    custo = str(tabela.loc[linha, "custo"])
+    
+    custo = str(tabela.loc[linha, "custo"]).replace("\n", "").strip()
     pyautogui.write(custo)
     pyautogui.press("tab")
-    #Custo
+    
     obs = str(tabela.loc[linha, "obs"])
-    if obs != "nan":
-        pyautogui.write(obs) 
+    if obs.lower() != "nan" and obs.strip():
+        pyautogui.write(obs.replace("\n", " ").strip())
+        
     pyautogui.press("tab")
-    #OBS
     pyautogui.press("enter")
-    #voltar para o início da tela
+    
+    # Retorna ao topo
     pyautogui.scroll(5000)
